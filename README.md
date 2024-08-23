@@ -77,8 +77,8 @@ sudo swapon /dev/sda1
 ```bash
 sudo apt-get install neofetch -y
 sudo apt-get install python3 -y
-sudo apt install python3-pip -y
 sudo apt install bpytop -y
+sudo apt install zsh -y
 ```
 
 ### 6. Configure Hostname and Hosts
