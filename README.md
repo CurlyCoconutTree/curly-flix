@@ -102,10 +102,10 @@ curly-flix
 ### 5. Configure network drives
 Add the network mounts to `/etc/fstab`:
 ```bash
-//192.168.20.2/Meat/Movies /media/movies cifs username=YOUR_USERNAME,password=YOUR_PASSWORD,iocharset=utf8,vers=2.0 0 0
-//192.168.20.2/Meat/Music /media/music cifs username=YOUR_USERNAME,password=YOUR_PASSWORD,iocharset=utf8,vers=2.0 0 0
-//192.168.20.2/Meat/TV /media/tv cifs username=YOUR_USERNAME,password=YOUR_PASSWORD,iocharset=utf8,vers=2.0 0 0
-//192.168.20.2/Meat/Music\040Videos /media/music_videos cifs username=YOUR_USERNAME,password=YOUR_PASSWORD,iocharset=utf8,vers=2.0 0 0
+//192.168.20.2/YOUR_SHARE/movies /media/movies cifs username=YOUR_USERNAME,password=YOUR_PASSWORD,iocharset=utf8,vers=2.0 0 0
+//192.168.20.2/YOUR_SHARE/music /media/music cifs username=YOUR_USERNAME,password=YOUR_PASSWORD,iocharset=utf8,vers=2.0 0 0
+//192.168.20.2/YOUR_SHARE/tv /media/tv cifs username=YOUR_USERNAME,password=YOUR_PASSWORD,iocharset=utf8,vers=2.0 0 0
+//192.168.20.2/YOUR_SHARE/music_videos /media/music_videos cifs username=YOUR_USERNAME,password=YOUR_PASSWORD,iocharset=utf8,vers=2.0 0 0
 ```
 
 ### 6. Reboot
