@@ -123,7 +123,7 @@ sudo systemctl start avahi-daemon
 sudo systemctl enable avahi-daemon
 ```
 
-## Docker and Docker-Compose Installation
+## Docker
 
 ### 1. Install Docker
 ```bash
