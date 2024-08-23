@@ -14,6 +14,7 @@ I'm running with 2 ethernet connections, one (via USB C to USB/Eth adapter) is a
 - 2 x 64 gig USB 3.1 thumb drives
 https://joshua-riek.github.io/ubuntu-rockchip-download/boards/radxa-zero3.html
 - Grab the file: ubuntu-24.04-preinstalled-server-arm64-radxa-zero3.img.xz
+   - I used BalenaEtcher to burn it to the SD card 
 
 
 ### 3D Printed Case
@@ -22,6 +23,8 @@ https://www.printables.com/model/922305-radxa-zero3e-case-by-nenter
 - Note 2: Print the one with the vents on the sides and hole in the bottom for SD card access and print the lid with the hold for the fan
 
 ## Initial Setup
+
+You can SSH into the instance, default User/Pass as of 8/23/2024 is ubuntu/ubuntu 
 
 ### 1. Create Directories
 ```bash
