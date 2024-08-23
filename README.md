@@ -5,7 +5,7 @@ And I would be remiss if I didn't mention Joshua Riek: https://github.com/Joshua
 This guide will help you set up Jellyfin on a Radxa Zero 3E using a custom Rockchip Ubuntu image in order to get hardware transcoding support. The setup includes Docker installation, USB drive configuration for swap and cache, and setting up various directories and services.
 
 ## Prerequisites
-- 1 x Radxa Zero 3E
+- 1 x Radxa Zero 3E (4 gigs of RAM)
 - 1 x 256 high speed SD card
 - https://www.amazon.com/gp/product/B0871ZL9TG/ref=ppx_yo_dt_b_search_asin_title?ie=UTF8&psc=1
 - 2 x 64 gig USB 3.1 thumb drives
