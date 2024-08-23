@@ -195,7 +195,7 @@ sudo docker run -d -p 9000:9000 -p 8000:8000 --name=portainer --restart=always -
 1. Reboot the system to ensure all configurations take effect.
 2. Verify that Jellyfin and other Docker containers are running properly.
 
-## Add on
+## Follow On Notes
 ```bash
 sudo apt-get install zram-tools
 sudo nano /etc/default/zramswap
