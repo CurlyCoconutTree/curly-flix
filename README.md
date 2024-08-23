@@ -73,7 +73,7 @@ echo "UUID=$UUID none swap sw 0 0" | sudo tee -a /etc/fstab
 sudo swapon /dev/sda1
 ```
 
-### 3. Install Utilities
+### 5. Install Utilities
 ```bash
 sudo apt-get install neofetch -y
 sudo apt-get install python3 -y
@@ -81,7 +81,7 @@ sudo apt install python3-pip -y
 sudo apt install bpytop -y
 ```
 
-### 4. Configure Hostname and Hosts
+### 6. Configure Hostname and Hosts
 Edit the following files:
 
 #### `/etc/hostname`
@@ -101,7 +101,7 @@ curly-flix
 #ff02::2 ip6-allrouters
 ```
 
-### 5. Configure network drives
+### 7. Configure network drives
 Add the network mounts to `/etc/fstab`:
 ```bash
 //192.168.20.2/YOUR_SHARE/movies /media/movies cifs username=YOUR_USERNAME,password=YOUR_PASSWORD,iocharset=utf8,vers=2.0 0 0
@@ -110,12 +110,12 @@ Add the network mounts to `/etc/fstab`:
 //192.168.20.2/YOUR_SHARE/music_videos /media/music_videos cifs username=YOUR_USERNAME,password=YOUR_PASSWORD,iocharset=utf8,vers=2.0 0 0
 ```
 
-### 6. Reboot
+### 8. Reboot
 ```bash
 sudo reboot
 ```
 
-### 7. Configure UFW and Avahi
+### 9. Configure UFW and Avahi
 ```bash
 sudo ufw allow 5353/udp
 sudo apt-get install avahi-daemon -y
