@@ -14,7 +14,8 @@ I'm running with 2 ethernet connections, one (via USB C to USB/Eth adapter) is a
 - 2 x 64 gig USB 3.1 thumb drives
 https://joshua-riek.github.io/ubuntu-rockchip-download/boards/radxa-zero3.html
 - Grab the file: ubuntu-24.04-preinstalled-server-arm64-radxa-zero3.img.xz
-   - I used BalenaEtcher to burn it to the SD card 
+   - I used BalenaEtcher to burn it to the SD card
+- The Debian Distro for the Radxa Zero 3E has the CPU clocked to 1.4Ghz.  The above Ubuntu image has it clocked at 1.8Ghz, which should be fine but I'd still suggest both heat sinks and a fan
 
 
 ### 3D Printed Case
