@@ -288,6 +288,11 @@ sudo docker run -d \
 1. Reboot the system to ensure all configurations take effect.
 2. Verify that Jellyfin and other Docker containers are running properly.
 
+### Local Websites to hit the Docker containers:
+1. (Portainer) http://curly-flix:9000/
+2. (Jellyfin) http://curly-flix:8096/
+3. (Glances) http://curly-flix:61208/
+
 ## Troubleshooting:
 
 1. First check ip route.  Did your changes stick?
