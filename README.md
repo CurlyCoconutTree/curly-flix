@@ -8,6 +8,7 @@ PLEASE NOTE:
 I'm running with 2 ethernet connections, one (via USB C to USB/Eth adapter) is assigned a static IP and plugged directly into one of the ethernet ports on my NAS and the other is the eth0 device on the Radxa board, which I connect to my main network.  I'm also using USB drives for cache, logs and swap so I don't thrash the SD card.  There's plenty of USB drives, lying around my office, so I'm not very concerned if I wear out a drive or two.
 
 ## Prerequisites
+- 27W or 30W USB C power supply
 - 1 x Radxa Zero 3E (4 gigs of RAM)
 - 1 x 256 high speed SD card
 - https://www.amazon.com/gp/product/B0871ZL9TG/ref=ppx_yo_dt_b_search_asin_title?ie=UTF8&psc=1
