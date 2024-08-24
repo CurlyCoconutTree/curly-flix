@@ -10,7 +10,7 @@ I'm running with 2 ethernet connections, one (via USB C to USB/Eth adapter) is a
 ## Prerequisites
 - 27W or 30W USB C power supply
 - 1 x Radxa Zero 3E (4 gigs of RAM)
-- 1 x 256 high speed SD card
+- 1 x 256 gig high speed SD card
 - https://www.amazon.com/gp/product/B0871ZL9TG/ref=ppx_yo_dt_b_search_asin_title?ie=UTF8&psc=1
 - 2 x 64 gig USB 3.1 thumb drives
 https://joshua-riek.github.io/ubuntu-rockchip-download/boards/radxa-zero3.html
