@@ -89,7 +89,8 @@ sudo ip route add default via 192.168.50.1 dev end1
 ### 4. Create rc.local 
 `sudo nano /etc/rc.local`
 
-#### **Add the content blow**
+#### **Add the content below**
+**NOTE: Your `sudo ip route del default via 192.168.20.2 dev enx00e04c680f35` may be different, just change the IP and/or device name at the end as needed**
 ```bash
 #!/bin/bash
 sudo ip route del default via 192.168.20.2 dev enx00e04c680f35
