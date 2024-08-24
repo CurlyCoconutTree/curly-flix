@@ -6,7 +6,7 @@ I would be remiss if I didn't mention Joshua Riek: https://github.com/Joshua-Rie
 This guide will help you set up Jellyfin on a Radxa Zero 3E using a custom Rockchip Ubuntu image in order to get hardware transcoding support. The setup includes Docker installation, USB drive configuration for swap and cache, and setting up various directories and services.
 
 PLEASE NOTE:
-I'm running with 2 ethernet connections, one (via USB C to USB/Eth adapter) is assigned a static IP and plugged directly into one of the ethernet ports on my NAS and the other is the eth0 device on the Radxa board, which I connect to my main network.  I'm also using USB drives for cache, logs and swap so I don't thrash the SD card.  There's plenty of USB drives, lying around my office, so I'm not very concerned if I wear out a drive or two.
+I'm running with 2 ethernet connections, one (via USB C to USB/Eth adapter) is assigned a static IP and plugged directly into one of the ethernet ports on my NAS and the other is the eth0/end1 device on the Radxa board, which I connect to my main network.  I'm also using USB drives for cache, logs and swap so I don't thrash the SD card.  There's plenty of USB drives, lying around my office, so I'm not very concerned if I wear out a drive or two.
 
 ## Prerequisites
 - 27W or 30W USB C power supply
