@@ -308,4 +308,4 @@ sudo docker run -d \
 
 Note: If you don't sign into portainer soon enough after running it, you'll get locked out.  Delete the container and any volumes, recreate the host mounts and re-run the docker command.
 
-Note 2: If you have a lot of media files, Jellyfin will take 24-48 hours to pull metadata, this is extremely taxing on the Radxa, you'll still be able to play files as your media library builds... but I'd suggest being patient.  After that you should be able to run multiple feeds at a time without the Radxa getting above skin temperatures.
+Note 2: If you have a lot of media files, Jellyfin will take 24-48 hours to pull and extract metadata, this is extremely taxing on the Radxa, you'll still be able to play files as your media library builds... but I'd suggest being patient.  After that you should be able to run multiple feeds at a time without the Radxa getting above skin temperatures.
