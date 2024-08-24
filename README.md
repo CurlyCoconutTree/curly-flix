@@ -40,179 +40,15 @@ sudo mkdir -p /home/apps/docker/portainer/data
 sudo chown -R ubuntu:ubuntu /cache
 sudo chown -R ubuntu:ubuntu /home/apps/docker/jellyfin/config
 ```
-### 2. Set Default Route
-```bash
-sudo ip route add default via 192.168.50.1 dev eth0
-```
 
-### 3. Configure USB Ethernet Adapter
-- **Find USB Ethernet device** (not `eth0`) and set it to `192.168.20.4/24`.
-- **Remove any IP table entries** that would set the USB Ethernet device as the default route. Ensure `eth0` is always used for internet and streaming traffic.
+### 2. Configure USB Ethernet Adapter
+- **Find USB Ethernet device** (not `eth0/end1`) and set it to `192.168.20.4/24` (the port on my NAS is statically assigned to 192.168.20.2/24 so they can "talk")
+   - `ip address show`
+   - Mine is `enx00e04c680f35`, yours may be different
 
-### 4. Configure USB Drive for Cache and Swap
+#### **Edit the Network Configuration**
+`sudo nano /etc/netplan/50-cloud-init.yaml`
 
-#### **Find and Set USB Drive for Cache**
-1. Identify the USB drive using `sudo fdisk -l`.
-2. Format the drive (if necessary) and mount it:
-```bash
-sudo mkfs.ext4 /dev/sdb1
-sudo mount /dev/sdb1 /cache
-```
-
-3. Update `/etc/fstab` to mount it automatically at boot:
-```bash
-UUID=$(blkid -s UUID -o value /dev/sdb1)
-echo "UUID=$UUID /cache ext4 defaults 0 2" | sudo tee -a /etc/fstab
-```
-
-#### **Configure USB Drive as Swap**
-1. Create a swap partition:
-```bash
-sudo mkswap /dev/sda1
-```
-
-2. Enable the swap and add the swap to `/etc/fstab`:
-```bash
-UUID=$(blkid -s UUID -o value /dev/sda1)
-echo "UUID=$UUID none swap sw 0 0" | sudo tee -a /etc/fstab
-sudo swapon /dev/sda1
-```
-
-### 5. Install Utilities
-```bash
-sudo apt-get install neofetch -y
-sudo apt-get install python3 -y
-sudo apt install bpytop -y
-sudo apt install zsh -y
-```
-
-### 6. Configure Hostname and Hosts
-Edit the following files:
-
-#### `/etc/hostname`
-```bash
-curly-flix
-```
-#### `/etc/hosts`
-```bash
-127.0.0.1 localhost curly-flix
-127.0.1.1 curly-flix
-
-# The following lines are desirable for IPv6 capable hosts
-#::1     localhost ip6-localhost ip6-loopback
-#fe00::0 ip6-localnet
-#ff00::0 ip6-mcastprefix
-#ff02::1 ip6-allnodes
-#ff02::2 ip6-allrouters
-```
-
-### 7. Configure network drives
-Add the network mounts to `/etc/fstab`:
-```bash
-//192.168.20.2/YOUR_SHARE/movies /media/movies cifs username=YOUR_USERNAME,password=YOUR_PASSWORD,iocharset=utf8,vers=2.0 0 0
-//192.168.20.2/YOUR_SHARE/music /media/music cifs username=YOUR_USERNAME,password=YOUR_PASSWORD,iocharset=utf8,vers=2.0 0 0
-//192.168.20.2/YOUR_SHARE/tv /media/tv cifs username=YOUR_USERNAME,password=YOUR_PASSWORD,iocharset=utf8,vers=2.0 0 0
-//192.168.20.2/YOUR_SHARE/music_videos /media/music_videos cifs username=YOUR_USERNAME,password=YOUR_PASSWORD,iocharset=utf8,vers=2.0 0 0
-```
-
-### 8. Reboot
-```bash
-sudo reboot
-```
-
-### 9. Configure UFW and Avahi
-```bash
-sudo ufw allow 5353/udp
-sudo apt-get install avahi-daemon -y
-sudo systemctl start avahi-daemon
-sudo systemctl enable avahi-daemon
-```
-
-## Docker
-
-### 1. Install Docker
-```bash
-sudo apt-get install docker.io -y
-```
-
-## Docker Services Configuration
-
-### 1. Open Firewall Ports
-```bash
-sudo ufw allow 5353/udp
-sudo ufw allow 8000/tcp
-sudo ufw allow 9000/tcp
-sudo ufw allow 61208/tcp
-sudo ufw allow 61209/tcp
-sudo ufw reload
-```
-
-### 2. Run Jellyfin with Docker and GPU Hardware Acceleration
-```bash
-#!/bin/bash
-
-# Capture the output of the loop in a variable
-DEVICE_ARGS=$(for dev in dri dma_heap mali0 rga mpp_service \
-   iep mpp-service vpu_service vpu-service \
-   hevc_service hevc-service rkvdec rkvenc vepu h265e ; do \
-  [ -e "/dev/$dev" ] && echo -n " --device /dev/$dev"; \
- done)
-
-# Run the Docker container with the generated device arguments
-sudo docker run -d \
-  --name=jellyfin \
-  --network=host \
-  --privileged \
-  --restart=unless-stopped \
-  --user=1000:1000 \
-  $DEVICE_ARGS \
-  -v /media/movies:/media/Movies \
-  -v /media/music:/media/Music \
-  -v /media/tv:/media/TV \
-  -v /media/music_videos:/media/Music\ Videos \
-  -v /cache:/cache \
-  -v /cache/logs:/config/log \
-  -v /home/apps/docker/jellyfin/config:/config \
-  jellyfin/jellyfin
-```
-
-### 3. Set Up Additional Services
-- **Watchtower**: Automatically updates Docker containers and cleans up old volumes.
-- **Glances**: Real-time system monitoring.
-- **Portainer**: Docker container management.
-
-```bash
-sudo docker run -d \
-  --name watchtower \
-  -v /var/run/docker.sock:/var/run/docker.sock \
-  --restart always \
-  containrrr/watchtower \
-  --cleanup
-
-sudo docker run -d --restart="always" -p 61208-61209:61208-61209 --name=glances -e GLANCES_OPT="-w" -v /var/run/docker.sock:/var/run/docker.sock:ro --pid host nicolargo/glances:latest
-
-sudo docker run -d -p 9000:9000 -p 8000:8000 --name=portainer --restart=always -v /var/run/docker.sock:/var/run/docker.sock -v /home/apps/docker/portainer/data:/data portainer/portainer-ce
-```
-
-
-## Final Steps
-
-1. Reboot the system to ensure all configurations take effect.
-2. Verify that Jellyfin and other Docker containers are running properly.
-
-## Follow On Notes
-```bash
-sudo apt-get install zram-tools
-sudo nano /etc/default/zramswap
-#comment out percentage and add
-SIZE=1536
-#change ALGO to lzo
-```
-
-Setting the USB C network adapter
-```bash
-sudo nano /etc/netplan/50-cloud-init.yaml
-```
 ```yaml
 # This file is generated from information provided by the datasource.  Changes
 # to it will not persist across an instance reboot.  To disable cloud-init's
@@ -243,7 +79,17 @@ network:
         optional: true
 ```
 
-My /etc/rc.local looks like this
+### 3. Set Default Route
+```bash
+sudo ip route add default via 192.168.50.1 dev eth0
+# OR dpending on what `ip address show` displays
+sudo ip route add default via 192.168.50.1 dev end1
+```
+
+### 4. Create rc.local 
+`sudo nano /etc/rc.local`
+
+#### **Add the content blow**
 ```bash
 #!/bin/bash
 sudo ip route del default via 192.168.20.2 dev enx00e04c680f35
@@ -252,8 +98,194 @@ sudo ufw allow 61208/udp
 sudo ufw allow 61208/tcp
 sudo ufw allow 61209/udp
 sudo ufw allow 61209/tcp
-neofetch
 ```
+#### **Execute**
+`sudo chmod +x /etc/rc.local`
+
+### 5. Configure ZRAM
+```
+sudo apt-get install zram-tools -y
+sudo nano /etc/default/zramswap
+```
+
+#### **Make the necessary changes to match the file below**
+```ini
+# Compression algorithm selection
+# speed: lz4 > zstd > lzo
+# compression: zstd > lzo > lz4
+# This is not inclusive of all that is available in latest kernels
+# See /sys/block/zram0/comp_algorithm (when zram module is loaded) to see
+# what is currently set and available for your kernel[1]
+# [1]  https://github.com/torvalds/linux/blob/master/Documentation/blockdev/zram.txt#L86
+ALGO=lzo
+
+# Specifies the amount of RAM that should be used for zram
+# based on a percentage the total amount of available memory
+# This takes precedence and overrides SIZE below
+#PERCENT=50
+
+# Specifies a static amount of RAM that should be used for
+# the ZRAM devices, this is in MiB
+SIZE=1536
+
+# Specifies the priority for the swap devices, see swapon(2)
+# for more details. Higher number = higher priority
+# This should probably be higher than hdd/ssd swaps.
+PRIORITY=100
+```
+
+### 6. Configure USB Drive for Cache and Swap
+
+#### **Find and Set USB Drive for Cache**
+1. Identify the USB drive using `sudo fdisk -l`.
+2. Format the drive (if necessary) and mount it:
+```bash
+sudo mkfs.ext4 /dev/sdb1
+sudo mount /dev/sdb1 /cache
+```
+
+3. Update `/etc/fstab` to mount it automatically at boot:
+```bash
+UUID=$(blkid -s UUID -o value /dev/sdb1)
+echo "UUID=$UUID /cache ext4 defaults 0 2" | sudo tee -a /etc/fstab
+```
+
+#### **Configure USB Drive as Swap**
+1. Create a swap partition:
+```bash
+sudo mkswap /dev/sda1
+```
+
+2. Enable the swap and add the swap to `/etc/fstab`:
+```bash
+UUID=$(blkid -s UUID -o value /dev/sda1)
+echo "UUID=$UUID none swap sw 0 0" | sudo tee -a /etc/fstab
+sudo swapon /dev/sda1
+```
+
+### 7. Configure Hostname and Hosts
+Edit the following files:
+
+#### `/etc/hostname`
+```bash
+curly-flix
+```
+#### `/etc/hosts`
+```bash
+127.0.0.1 localhost curly-flix
+127.0.1.1 curly-flix
+
+# The following lines are desirable for IPv6 capable hosts
+#::1     localhost ip6-localhost ip6-loopback
+#fe00::0 ip6-localnet
+#ff00::0 ip6-mcastprefix
+#ff02::1 ip6-allnodes
+#ff02::2 ip6-allrouters
+```
+
+### 8. Reboot
+```bash
+sudo reboot
+```
+
+### 9. Install Utilities
+```bash
+sudo apt-get install neofetch -y
+sudo apt-get install python3 -y
+sudo apt install bpytop -y
+sudo apt install zsh -y
+sudo apt-get install docker.io -y
+sudo apt-get install avahi-daemon -y
+```
+
+### 10. Configure network drives
+Add the network mounts to `/etc/fstab`:
+```bash
+//192.168.20.2/YOUR_SHARE/movies /media/movies cifs username=YOUR_USERNAME,password=YOUR_PASSWORD,iocharset=utf8,vers=2.0 0 0
+//192.168.20.2/YOUR_SHARE/music /media/music cifs username=YOUR_USERNAME,password=YOUR_PASSWORD,iocharset=utf8,vers=2.0 0 0
+//192.168.20.2/YOUR_SHARE/tv /media/tv cifs username=YOUR_USERNAME,password=YOUR_PASSWORD,iocharset=utf8,vers=2.0 0 0
+//192.168.20.2/YOUR_SHARE/music_videos /media/music_videos cifs username=YOUR_USERNAME,password=YOUR_PASSWORD,iocharset=utf8,vers=2.0 0 0
+```
+
+### 11. Configure Avahi
+```bash
+sudo systemctl start avahi-daemon
+sudo systemctl enable avahi-daemon
+```
+
+### 12. Reboot
+```bash
+sudo reboot
+```
+
+## Docker Services Configuration
+
+### 1. Run Jellyfin with Docker and GPU Hardware Acceleration
+```bash
+#!/bin/bash
+
+# Capture the output of the loop in a variable
+DEVICE_ARGS=$(for dev in dri dma_heap mali0 rga mpp_service \
+   iep mpp-service vpu_service vpu-service \
+   hevc_service hevc-service rkvdec rkvenc vepu h265e ; do \
+  [ -e "/dev/$dev" ] && echo -n " --device /dev/$dev"; \
+ done)
+
+# Run the Docker container with the generated device arguments
+sudo docker run -d \
+  --name=jellyfin \
+  --network=host \
+  --privileged \
+  --restart=unless-stopped \
+  --user=1000:1000 \
+  $DEVICE_ARGS \
+  -v /media/movies:/media/Movies \
+  -v /media/music:/media/Music \
+  -v /media/tv:/media/TV \
+  -v /media/music_videos:/media/Music\ Videos \
+  -v /cache:/cache \
+  -v /cache/logs:/config/log \
+  -v /home/apps/docker/jellyfin/config:/config \
+  jellyfin/jellyfin
+```
+
+### 2. Set Up Additional Services
+- **Watchtower**: Automatically updates Docker containers and cleans up old volumes.
+- **Glances**: Real-time system monitoring.
+- **Portainer**: Docker container management.
+
+```bash
+sudo docker run -d \
+   --name watchtower \
+   -v /var/run/docker.sock:/var/run/docker.sock \
+   --cleanup \
+   --restart=always \
+   containrrr/watchtower
+
+sudo docker run -d \
+   --name=glances \
+   -p 61208-61209:61208-61209 \
+   -v /var/run/docker.sock:/var/run/docker.sock:ro \
+   --pid host \
+   --restart="always" \
+   -e GLANCES_OPT="-w" \
+   nicolargo/glances:latest
+
+sudo docker run -d \
+   --name=portainer \
+   -p 9000:9000 \
+   -p 8000:8000 \
+   -v /var/run/docker.sock:/var/run/docker.sock \
+   -v /home/apps/docker/portainer/data:/data \
+   --restart=always \
+   portainer/portainer-ce 
+```
+
+## Final Steps
+
+1. Reboot the system to ensure all configurations take effect.
+2. Verify that Jellyfin and other Docker containers are running properly.
+
 ## Troubleshooting:
 
 1. First check ip route.  Did your changes stick?
@@ -262,5 +294,8 @@ neofetch
 4. Restart system
 5. Check 1-3 again
 6. Restart all containers
+
+## Not Transcoding?
+1. Do you have VAAPI selected for Transcoding in Jellyfin?
 
 Note: If you don't sign into portainer soon enough after running it, you'll get locked out.  Delete the container and any volumes, recreate the host mounts and re-run the docker command.
