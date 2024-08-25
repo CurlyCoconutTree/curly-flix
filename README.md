@@ -253,7 +253,7 @@ sudo docker run -d \
 ```
 
 ### 2. Set Up Additional Services
-- **Watchtower**: Automatically updates Docker containers and cleans up old volumes.
+- **Watchtower**: Automatically updates Docker containers and clean up old images.
 - **Glances**: Real-time system monitoring.
 - **Portainer**: Docker container management.
 
