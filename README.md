@@ -1,7 +1,9 @@
 # Curly-Flix Setup Guide
 Inspiration for this project came from YouTuber Grafick (https://www.youtube.com/@GrafickStudios) and this specific video: https://www.youtube.com/watch?v=6pRHlH2eNBw
 
-I would be remiss if I didn't mention Joshua Riek: https://github.com/Joshua-Riek/ubuntu-rockchip
+I would be remiss if I didn't mention Joshua Riek (https://github.com/Joshua-Riek)
+
+And finally, thank you Nenter for the case, it's nice not having to design my own: (https://www.printables.com/@Nenter_2090644)
 
 This guide will help you set up Jellyfin on a Radxa Zero 3E using a custom Rockchip Ubuntu image in order to get hardware transcoding support. The setup includes Docker installation, USB drive configuration for swap and cache, and setting up various directories and services.
 
