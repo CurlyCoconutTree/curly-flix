@@ -29,7 +29,7 @@ You can SSH into the instance, default User/Pass as of 8/23/2024 is ubuntu/ubunt
 
 ### 1. Create Directories
 ```bash
-sudo apt-get update
+sudo apt update
 sudo mkdir -p /media/movies
 sudo mkdir -p /media/music
 sudo mkdir -p /media/tv
@@ -108,7 +108,7 @@ sudo ufw allow 61209/tcp
 
 ### 5. Configure ZRAM
 ```
-sudo apt-get install zram-tools -y
+sudo apt install zram-tools -y
 sudo nano /etc/default/zramswap
 ```
 
@@ -194,12 +194,12 @@ sudo reboot
 
 ### 9. Install Utilities
 ```bash
-sudo apt-get install neofetch -y
-sudo apt-get install python3 -y
+sudo apt install neofetch -y
+sudo apt install python3 -y
 sudo apt install bpytop -y
 sudo apt install zsh -y
-sudo apt-get install docker.io -y
-sudo apt-get install avahi-daemon -y
+sudo apt install avahi-daemon -y
+sudo apt install docker.io -y
 ```
 
 ### 10. Configure network drives
