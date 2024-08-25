@@ -221,7 +221,7 @@ sudo reboot
 
 ## Docker Services Configuration
 
-### 1. Run Jellyfin with Docker and GPU Hardware Acceleration
+### 1. Run Jellyfin with Docker and VAAPI Support (Hardware Transcoding)
 ```bash
 #!/bin/bash
 
