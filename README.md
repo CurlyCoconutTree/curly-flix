@@ -257,7 +257,7 @@ sudo docker run -d \
 - **Watchtower**: Automatically updates Docker containers and clean up old images.
 - **Glances**: Real-time system monitoring.
 - **Portainer**: Docker container management.
-- **Homarr**: Homepage/Dashboard
+- **Homarr**: Homepage/Dashboard.
 
 ```bash
 sudo docker run -d \
