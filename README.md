@@ -297,9 +297,10 @@ sudo docker run -d \
 1. First check ip route.  Did your changes stick?
 2. Check your firewall rules.  Did those changes stick?
 3. Ping NAS and ping Gateway, look at your network configuration.
-4. Restart system
-5. Check 1-3 again
-6. Restart all containers
+4. Check the contents of the subfolders under `/media`, are they populated with your files?
+5. Restart system
+6. Check 1-4 again
+7. Restart all containers
 
 ## Not Transcoding?
 1. Do you have VAAPI selected for Transcoding in Jellyfin?
