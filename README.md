@@ -37,6 +37,9 @@ sudo mkdir -p /media/music_videos
 sudo mkdir -p /cache/logs
 sudo mkdir -p /home/apps/docker/jellyfin/config
 sudo mkdir -p /home/apps/docker/portainer/data
+sudo mkdir -P /home/apps/docker/homarr/configs
+sudo mkdir -p /home/apps/docker/homarr/data
+sudo mkdir -p /home/apps/docker/homarr/icons
 sudo chown -R ubuntu:ubuntu /cache
 sudo chown -R ubuntu:ubuntu /home/apps/docker/jellyfin/config
 ```
@@ -254,6 +257,7 @@ sudo docker run -d \
 - **Watchtower**: Automatically updates Docker containers and clean up old images.
 - **Glances**: Real-time system monitoring.
 - **Portainer**: Docker container management.
+- **Homarr**: Homepage/Dashboard
 
 ```bash
 sudo docker run -d \
@@ -279,7 +283,17 @@ sudo docker run -d \
    -v /var/run/docker.sock:/var/run/docker.sock \
    -v /home/apps/docker/portainer/data:/data \
    --restart=always \
-   portainer/portainer-ce 
+   portainer/portainer-ce
+
+sudo docker run -d \
+  --name homarr \
+  -p 7575:7575 \
+  -v /var/run/docker.sock:/var/run/docker.sock \
+  -v /home/apps/docker/homarr/configs:/app/data/configs \
+  -v /home/apps/docker/homarr/data:/data \
+  -v /home/apps/docker/homarr/icons:/app/public/icons \
+  --restart unless-stopped \
+  -d ghcr.io/ajnart/homarr:latest
 ```
 
 ## Final Steps
@@ -291,6 +305,7 @@ sudo docker run -d \
 1. (Portainer) http://curly-flix:9000/
 2. (Jellyfin) http://curly-flix:8096/
 3. (Glances) http://curly-flix:61208/
+4. (Homarr) http://curly-flix:7575/
 
 ## Troubleshooting:
 
