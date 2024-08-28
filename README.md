@@ -37,7 +37,7 @@ sudo mkdir -p /media/music_videos
 sudo mkdir -p /cache/logs
 sudo mkdir -p /home/apps/docker/jellyfin/config
 sudo mkdir -p /home/apps/docker/portainer/data
-sudo mkdir -P /home/apps/docker/homarr/configs
+sudo mkdir -p /home/apps/docker/homarr/configs
 sudo mkdir -p /home/apps/docker/homarr/data
 sudo mkdir -p /home/apps/docker/homarr/icons
 sudo chown -R ubuntu:ubuntu /cache
