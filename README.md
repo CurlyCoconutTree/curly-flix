@@ -321,7 +321,8 @@ sudo docker run -d \
 1. (Portainer) http://curly-flix:9000/
 2. (Jellyfin) http://curly-flix:8096/
 3. (Glances) http://curly-flix:61208/
-4. (Homarr) http://curly-flix:7575/
+4. (Navidrome) http://curly-flix:4533/
+5. (Homarr) http://curly-flix:7575/
 
 ## Troubleshooting:
 
