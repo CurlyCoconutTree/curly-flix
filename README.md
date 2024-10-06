@@ -134,7 +134,7 @@ ALGO=lzo
 
 # Specifies a static amount of RAM that should be used for
 # the ZRAM devices, this is in MiB
-SIZE=1536
+SIZE=536
 
 # Specifies the priority for the swap devices, see swapon(2)
 # for more details. Higher number = higher priority
