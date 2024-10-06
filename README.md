@@ -262,6 +262,7 @@ sudo docker run -d \
 - **Glances**: Real-time system monitoring.
 - **Portainer**: Docker container management.
 - **Homarr**: Homepage/Dashboard.
+- **Navidrome**: Music streaming.
 
 ```bash
 sudo docker run -d \
