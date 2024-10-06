@@ -125,7 +125,7 @@ sudo nano /etc/default/zramswap
 # See /sys/block/zram0/comp_algorithm (when zram module is loaded) to see
 # what is currently set and available for your kernel[1]
 # [1]  https://github.com/torvalds/linux/blob/master/Documentation/blockdev/zram.txt#L86
-ALGO=lzo
+ALGO=zstd
 
 # Specifies the amount of RAM that should be used for zram
 # based on a percentage the total amount of available memory
