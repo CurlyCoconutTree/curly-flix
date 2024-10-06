@@ -30,6 +30,8 @@ You can SSH into the instance, default User/Pass as of 8/23/2024 is ubuntu/ubunt
 ### 1. Create Directories
 ```bash
 sudo apt update
+sudo apt upgrade # this may take a while, be patient
+sudo reboot now # for good measure
 sudo mkdir -p /media/movies
 sudo mkdir -p /media/music
 sudo mkdir -p /media/tv
@@ -40,8 +42,10 @@ sudo mkdir -p /home/apps/docker/portainer/data
 sudo mkdir -p /home/apps/docker/homarr/configs
 sudo mkdir -p /home/apps/docker/homarr/data
 sudo mkdir -p /home/apps/docker/homarr/icons
+sudo mkdir -p /home/apps/docker/navidrome/data
 sudo chown -R ubuntu:ubuntu /cache
 sudo chown -R ubuntu:ubuntu /home/apps/docker/jellyfin/config
+sudo chown -R ubuntu:ubuntu /home/apps/docker/navidrome/data
 ```
 
 ### 2. Configure USB Ethernet Adapter
@@ -294,6 +298,17 @@ sudo docker run -d \
   -v /home/apps/docker/homarr/icons:/app/public/icons \
   --restart unless-stopped \
   -d ghcr.io/ajnart/homarr:latest
+
+sudo docker run -d \
+   --name navidrome \
+   --restart=unless-stopped \
+   --user 1000:1000 \
+   -v /media/music:/music \
+   -v /home/apps/docker/navidrome/data:/data \
+   -p 4533:4533 \
+   -e ND_LOGLEVEL=info \
+   deluan/navidrome:latest
+
 ```
 
 ## Final Steps
