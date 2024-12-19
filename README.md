@@ -257,6 +257,38 @@ sudo docker run -d \
   jellyfin/jellyfin
 ```
 
+#### Note:
+A very patient and kind Reddit user (who will remain nameless unless they contact me wishing to be credited) had issues with transcoding and solved it by altering the above command to look like this (the change being group-add):
+```bash
+#!/bin/bash
+
+# Capture the output of the loop in a variable
+DEVICE_ARGS=$(for dev in dri dma_heap mali0 rga mpp_service \
+   iep mpp-service vpu_service vpu-service \
+   hevc_service hevc-service rkvdec rkvenc vepu h265e ; do \
+  [ -e "/dev/$dev" ] && echo -n " --device /dev/$dev"; \
+ done)
+
+# Run the Docker container with the generated device arguments
+sudo docker run -d \
+  --name=jellyfin \
+  --network=host \
+  --privileged \
+  --restart=unless-stopped \
+  --user=1000:1000 \
+  --group-add=44 \
+  $DEVICE_ARGS \
+  -v /media/movies:/media/Movies \
+  -v /media/music:/media/Music \
+  -v /media/tv:/media/TV \
+  -v /media/music_videos:/media/Music\ Videos \
+  -v /cache:/cache \
+  -v /cache/logs:/config/log \
+  -v /home/apps/docker/jellyfin/config:/config \
+  jellyfin/jellyfin
+```
+I have not tested this yet as my Radxa setup is down and I'm poor on time.
+
 ### 2. Set Up Additional Services
 - **Watchtower**: Automatically updates Docker containers and clean up old images.
 - **Glances**: Real-time system monitoring.
